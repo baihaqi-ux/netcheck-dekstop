@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tester import measure_ping
 
 
 class NetCheckApp:
@@ -44,8 +45,17 @@ class NetCheckApp:
         ttk.Label(self.root, textvariable=self.status_var).pack()
 
     def start_test(self):
-        # Placeholder: logika tes asli ditambahkan di Step 3-5
-        self.status_var.set("Fitur tes belum dibuat")
+        self.status_var.set("Mengukur ping...")
+        self.root.update_idletasks()
+
+        hasil = measure_ping()
+        if hasil is None:
+            self.ping_var.set("Gagal")
+            self.status_var.set("Tidak bisa terhubung ke internet")
+        else:
+            rata_rata, jitter = hasil
+            self.ping_var.set(f"{rata_rata:.0f}  (jitter {jitter:.1f})")
+            self.status_var.set("Tes ping selesai")
 
 
 def main():
