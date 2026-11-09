@@ -9,12 +9,12 @@ class NetCheckApp:
     def __init__(self, root):
         self.root = root
         self.root.title("NetCheck Desktop")
-        self.root.geometry("380x350")
+        self.root.geometry("380x380")
         self.root.resizable(False, False)
 
-        # Judul
+        # Judul dengan Icon Emoji
         title_label = ttk.Label(
-            root, text="NetCheck Desktop", font=("Helvetica", 16, "bold")
+            root, text="⚡ NetCheck Desktop", font=("Helvetica", 16, "bold")
         )
         title_label.pack(pady=15)
 
@@ -44,7 +44,13 @@ class NetCheckApp:
         self.btn_start = ttk.Button(
             root, text="Mulai Tes", command=self.start_test
         )
-        self.btn_start.pack(pady=15)
+        self.btn_start.pack(pady=8)
+
+        # Tombol Reset Hasil
+        self.btn_reset = ttk.Button(
+            root, text="Reset", command=self.reset_results
+        )
+        self.btn_reset.pack(pady=5)
 
         # Status
         self.s_var = tk.StringVar(value="Siap")
@@ -52,6 +58,13 @@ class NetCheckApp:
             root, textvariable=self.s_var, font=("Helvetica", 9, "italic")
         )
         self.lbl_status.pack(pady=5)
+
+    def reset_results(self):
+        """Fungsi untuk membersihkan tampilan hasil pengujian"""
+        self.lbl_ping.config(text="-")
+        self.lbl_download.config(text="-")
+        self.lbl_upload.config(text="-")
+        self.s_var.set("Siap")
 
     def run_speedtest(self):
         try:
@@ -91,7 +104,6 @@ class NetCheckApp:
         self.lbl_download.config(text="-")
         self.lbl_upload.config(text="-")
 
-        # Threading agar UI tidak Not Responding saat proses tes
         threading.Thread(target=self.run_speedtest, daemon=True).start()
 
 
