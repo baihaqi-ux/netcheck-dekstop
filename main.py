@@ -10,7 +10,7 @@ class NetCheckApp:
     def __init__(self, root):
         self.root = root
         self.root.title("NetCheck Desktop")
-        self.root.geometry("400x430")
+        self.root.geometry("400x455")
         self.root.resizable(False, False)
         self.root.configure(bg="#f0f4f8")
 
@@ -63,6 +63,12 @@ class NetCheckApp:
             root, text="Reset", command=self.reset_results
         )
         self.btn_reset.pack(pady=5)
+
+        # Progress Bar
+        self.progress = ttk.Progressbar(
+            root, orient="horizontal", length=250, mode="indeterminate"
+        )
+        self.progress.pack(pady=6)
 
         # Status
         self.s_var = tk.StringVar(value="Siap")
@@ -126,6 +132,7 @@ class NetCheckApp:
         except Exception:
             self.s_var.set("❌ Gagal: Terjadi gangguan koneksi jaringan")
         finally:
+            self.progress.stop()
             self.btn_start.config(state="normal")
 
     def start_test(self):
@@ -134,6 +141,7 @@ class NetCheckApp:
         self.lbl_download.config(text="-")
         self.lbl_upload.config(text="-")
         self.lbl_server.config(text="-")
+        self.progress.start(10)
 
         threading.Thread(target=self.run_speedtest, daemon=True).start()
 
