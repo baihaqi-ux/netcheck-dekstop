@@ -9,19 +9,24 @@ class NetCheckApp:
     def __init__(self, root):
         self.root = root
         self.root.title("NetCheck Desktop")
-        self.root.geometry("380x380")
+        self.root.geometry("400x410")
         self.root.resizable(False, False)
+        self.root.configure(bg="#f0f4f8")
 
-        # Judul dengan Icon Emoji
+        style = ttk.Style()
+        style.configure("TFrame", background="#f0f4f8")
+        style.configure("TLabel", background="#f0f4f8", foreground="#1e293b")   
+
+      
+# Judul dengan Icon Emoji
         title_label = ttk.Label(
             root, text="⚡ NetCheck Desktop", font=("Helvetica", 16, "bold")
         )
-        title_label.pack(pady=15)
+        title_label.pack(pady=18)
 
-        # Frame Hasil
+        # Frame Hasil (Ini yang sempat terhapus)
         frame = ttk.Frame(root)
         frame.pack(pady=10, padx=20)
-
         ttk.Label(
             frame, text="Ping (ms):", font=("Helvetica", 10, "bold")
         ).grid(row=0, column=0, sticky="w", pady=6)
