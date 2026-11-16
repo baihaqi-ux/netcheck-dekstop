@@ -68,33 +68,33 @@ class NetCheckApp:
 
     def run_speedtest(self):
         try:
-            self.s_var.set("Mencari server terbaik...")
+            self.s_var.set("🔍 Mencari server terbaik...")
             st = speedtest.Speedtest()
             st.get_best_server()
 
-            self.s_var.set("Mengukur Ping...")
+            self.s_var.set("📡 Mengukur Ping...")
             ping = st.results.ping
             self.lbl_ping.config(text=f"{ping:.0f}")
 
-            self.s_var.set("Mengukur kecepatan Download...")
+            self.s_var.set("📥 Mengukur kecepatan Download...")
             download_speed = st.download() / 1_000_000
             self.lbl_download.config(text=f"{download_speed:.2f}")
 
-            self.s_var.set("Mengukur kecepatan Upload...")
+            self.s_var.set("📤 Mengukur kecepatan Upload...")
             upload_speed = st.upload() / 1_000_000
             self.lbl_upload.config(text=f"{upload_speed:.2f}")
 
             if download_speed >= 20:
-                kualitas = "Koneksi Sangat Cepat"
+                kualitas = "🚀 Koneksi Sangat Cepat"
             elif download_speed >= 7:
-                kualitas = "Koneksi Stabil"
+                kualitas = "✅ Koneksi Stabil"
             else:
-                kualitas = "Koneksi Lambat"
+                kualitas = "⚠️ Koneksi Lambat"
 
             self.s_var.set(f"Pengujian Selesai! ({kualitas})")
 
         except Exception:
-            self.s_var.set("Gagal: Periksa koneksi Wi-Fi Anda")
+            self.s_var.set("❌ Gagal: Periksa koneksi Wi-Fi Anda")
         finally:
             self.btn_start.config(state="normal")
 
