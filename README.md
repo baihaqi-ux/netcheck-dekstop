@@ -6,8 +6,10 @@ Aplikasi penguji kecepatan dan kualitas jaringan Wi-Fi berbasis Python GUI (Tkin
 - 📶 **Pengujian Latency / Ping** (ms)
 - 📥 **Pengujian Kecepatan Download** (Mbps)
 - 📤 **Pengujian Kecepatan Upload** (Mbps)
+- 🌐 **Deteksi Informasi Server & Lokasi Otomatis**
 - 📊 **Penilaian Kualitas Koneksi Otomatis**
-- 🔄 **Tombol Reset Hasil Pengujian**
+- ⏳ **Animasi Progress Bar & Catatan Waktu Tes**
+- ⌨️ **Dukungan Shortcut Keyboard** (`Enter` untuk mulai, `Esc` untuk reset)
 
 ## 🛠️ Cara Menjalankan Aplikasi
 1. Pastikan laptop terhubung ke jaringan internet/Wi-Fi.
