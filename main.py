@@ -93,8 +93,13 @@ class NetCheckApp:
 
             self.s_var.set(f"Pengujian Selesai! ({kualitas})")
 
+        except speedtest.ConfigRetrievalError:
+            self.s_var.set("❌ Gagal: Tidak dapat terhubung ke server speedtest")
+        except speedtest.NoMatchedServers:
+            self.s_var.set("❌ Gagal: Server tidak ditemukan, cek Wi-Fi Anda")
         except Exception:
-            self.s_var.set("❌ Gagal: Periksa koneksi Wi-Fi Anda")
+            self.s_var.set("❌ Gagal: Terjadi gangguan koneksi jaringan")
+            
         finally:
             self.btn_start.config(state="normal")
 
@@ -105,6 +110,7 @@ class NetCheckApp:
         self.lbl_upload.config(text="-")
 
         threading.Thread(target=self.run_speedtest, daemon=True).start()
+
 
 
 if __name__ == "__main__":
