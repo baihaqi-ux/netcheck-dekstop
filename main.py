@@ -6,8 +6,10 @@ from datetime import datetime
 
 
 class NetCheckApp:
+    """Aplikasi GUI Tkinter untuk mengukur kecepatan dan kualitas koneksi internet."""
 
     def __init__(self, root):
+        """Inisialisasi jendela utama dan seluruh komponen widget GUI."""
         self.root = root
         self.root.title("NetCheck Desktop")
         self.root.geometry("420x515")
@@ -100,7 +102,7 @@ class NetCheckApp:
         self.root.bind("<Escape>", lambda event: self.reset_results())
 
     def copy_results(self):
-        """Menyalin ringkasan hasil speedtest ke clipboard sistem"""
+        """Menyalin ringkasan hasil speedtest ke clipboard sistem."""
         ping = self.lbl_ping.cget("text")
         if ping == "-":
             self.s_var.set("⚠️ Belum ada hasil tes untuk disalin")
@@ -119,7 +121,7 @@ class NetCheckApp:
         self.s_var.set("📋 Hasil pengujian berhasil disalin ke clipboard!")
 
     def reset_results(self):
-        """Fungsi untuk membersihkan tampilan hasil pengujian"""
+        """Membersihkan seluruh tampilan hasil pengujian ke kondisi awal."""
         self.lbl_ping.config(text="-")
         self.lbl_download.config(text="-")
         self.lbl_upload.config(text="-")
@@ -129,6 +131,7 @@ class NetCheckApp:
         self.s_var.set("Siap")
 
     def run_speedtest(self):
+        """Menjalankan proses pengukuran ping, download, dan upload di background thread."""
         try:
             self.s_var.set("🔍 Mencari server terbaik...")
             st = speedtest.Speedtest()
@@ -176,6 +179,7 @@ class NetCheckApp:
             self.btn_start.config(state="normal")
 
     def start_test(self):
+        """Memulai thread pengujian baru dan menonaktifkan tombol sementara."""
         self.btn_start.config(state="disabled")
         self.lbl_ping.config(text="-")
         self.lbl_download.config(text="-")
