@@ -12,7 +12,16 @@ class NetCheckApp:
         """Inisialisasi jendela utama dan seluruh komponen widget GUI."""
         self.root = root
         self.root.title("NetCheck Desktop")
-        self.root.geometry("420x515")
+
+        # Posisikan jendela tepat di tengah layar
+        window_width = 420
+        window_height = 535
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+        pos_x = (screen_width // 2) - (window_width // 2)
+        pos_y = (screen_height // 2) - (window_height // 2)
+        self.root.geometry(f"{window_width}x{window_height}+{pos_x}+{pos_y}")
+
         self.root.resizable(False, False)
         self.root.configure(bg="#f0f4f8")
 
@@ -101,6 +110,11 @@ class NetCheckApp:
         self.root.bind("<Return>", lambda event: self.start_test())
         self.root.bind("<Escape>", lambda event: self.reset_results())
 
+        # Footer Versi
+        ttk.Label(
+            root, text="NetCheck Desktop v1.0.0 • XI TKJ 2", font=("Helvetica", 8), foreground="#94a3b8"
+        ).pack(side="bottom", pady=6)
+
     def copy_results(self):
         """Menyalin ringkasan hasil speedtest ke clipboard sistem."""
         ping = self.lbl_ping.cget("text")
@@ -167,6 +181,7 @@ class NetCheckApp:
             self.s_var.set(f"Pengujian Selesai! ({kualitas})")
             waktu_sekarang = datetime.now().strftime("%H:%M:%S")
             self.lbl_time.config(text=f"Terakhir dites: {waktu_sekarang}")
+
             waktu_lengkap = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             with open("riwayat_speedtest.txt", "a", encoding="utf-8") as file_log:
                 file_log.write(
