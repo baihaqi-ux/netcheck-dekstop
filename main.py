@@ -77,11 +77,7 @@ class NetCheckApp:
         )
         self.lbl_status.pack(pady=5)
 
-        # Waktu Pengujian Terakhir
-        self.lbl_time = ttk.Label(
-            root, text="Terakhir dites: -", font=("Helvetica", 8), foreground="#64748b"
-        )
-        self.lbl_time.pack(pady=8)
+    
         # Waktu Pengujian Terakhir
         self.lbl_time = ttk.Label(
             root, text="Terakhir dites: -", font=("Helvetica", 8), foreground="#64748b"
@@ -89,9 +85,9 @@ class NetCheckApp:
         self.lbl_time.pack(pady=8)
 
         # Shortcut Keyboard
+
         self.root.bind("<Return>", lambda event: self.start_test())
         self.root.bind("<Escape>", lambda event: self.reset_results())
-
     def reset_results(self):
         """Fungsi untuk membersihkan tampilan hasil pengujian"""
         self.lbl_ping.config(text="-")
