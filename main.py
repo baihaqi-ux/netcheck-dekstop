@@ -10,7 +10,7 @@ class NetCheckApp:
     def __init__(self, root):
         self.root = root
         self.root.title("NetCheck Desktop")
-        self.root.geometry("420x485")
+        self.root.geometry("420x515")
         self.root.resizable(False, False)
         self.root.configure(bg="#f0f4f8")
 
@@ -70,6 +70,12 @@ class NetCheckApp:
         )
         self.btn_reset.pack(pady=5)
 
+        # Tombol Salin Hasil
+        self.btn_copy = ttk.Button(
+            root, text="Salin Hasil", command=self.copy_results
+        )
+        self.btn_copy.pack(pady=5)
+
         # Progress Bar
         self.progress = ttk.Progressbar(
             root, orient="horizontal", length=250, mode="indeterminate"
@@ -92,6 +98,25 @@ class NetCheckApp:
         # Shortcut Keyboard
         self.root.bind("<Return>", lambda event: self.start_test())
         self.root.bind("<Escape>", lambda event: self.reset_results())
+
+    def copy_results(self):
+        """Menyalin ringkasan hasil speedtest ke clipboard sistem"""
+        ping = self.lbl_ping.cget("text")
+        if ping == "-":
+            self.s_var.set("⚠️ Belum ada hasil tes untuk disalin")
+            return
+
+        teks_hasil = (
+            f"⚡ Hasil NetCheck Desktop ({self.lbl_time.cget('text')})\n"
+            f"• Ping: {ping} ms\n"
+            f"• Download: {self.lbl_download.cget('text')} Mbps\n"
+            f"• Upload: {self.lbl_upload.cget('text')} Mbps\n"
+            f"• Server: {self.lbl_server.cget('text')}\n"
+            f"• ISP: {self.lbl_isp.cget('text')}"
+        )
+        self.root.clipboard_clear()
+        self.root.clipboard_append(teks_hasil)
+        self.s_var.set("📋 Hasil pengujian berhasil disalin ke clipboard!")
 
     def reset_results(self):
         """Fungsi untuk membersihkan tampilan hasil pengujian"""
