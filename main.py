@@ -10,7 +10,7 @@ class NetCheckApp:
     def __init__(self, root):
         self.root = root
         self.root.title("NetCheck Desktop")
-        self.root.geometry("400x455")
+        self.root.geometry("420x485")
         self.root.resizable(False, False)
         self.root.configure(bg="#f0f4f8")
 
@@ -32,25 +32,31 @@ class NetCheckApp:
             frame, text="Ping (ms):", font=("Helvetica", 10, "bold")
         ).grid(row=0, column=0, sticky="w", pady=6)
         self.lbl_ping = ttk.Label(frame, text="-", font=("Helvetica", 10))
-        self.lbl_ping.grid(row=0, column=1, sticky="e", padx=30)
+        self.lbl_ping.grid(row=0, column=1, sticky="e", padx=25)
 
         ttk.Label(
             frame, text="Download (Mbps):", font=("Helvetica", 10, "bold")
         ).grid(row=1, column=0, sticky="w", pady=6)
         self.lbl_download = ttk.Label(frame, text="-", font=("Helvetica", 10))
-        self.lbl_download.grid(row=1, column=1, sticky="e", padx=30)
+        self.lbl_download.grid(row=1, column=1, sticky="e", padx=25)
 
         ttk.Label(
             frame, text="Upload (Mbps):", font=("Helvetica", 10, "bold")
         ).grid(row=2, column=0, sticky="w", pady=6)
         self.lbl_upload = ttk.Label(frame, text="-", font=("Helvetica", 10))
-        self.lbl_upload.grid(row=2, column=1, sticky="e", padx=30)
+        self.lbl_upload.grid(row=2, column=1, sticky="e", padx=25)
 
         ttk.Label(
             frame, text="Server:", font=("Helvetica", 10, "bold")
         ).grid(row=3, column=0, sticky="w", pady=6)
         self.lbl_server = ttk.Label(frame, text="-", font=("Helvetica", 9))
-        self.lbl_server.grid(row=3, column=1, sticky="e", padx=30)
+        self.lbl_server.grid(row=3, column=1, sticky="e", padx=25)
+
+        ttk.Label(
+            frame, text="ISP / IP Publik:", font=("Helvetica", 10, "bold")
+        ).grid(row=4, column=0, sticky="w", pady=6)
+        self.lbl_isp = ttk.Label(frame, text="-", font=("Helvetica", 9))
+        self.lbl_isp.grid(row=4, column=1, sticky="e", padx=25)
 
         # Tombol Tes
         self.btn_start = ttk.Button(
@@ -77,7 +83,6 @@ class NetCheckApp:
         )
         self.lbl_status.pack(pady=5)
 
-    
         # Waktu Pengujian Terakhir
         self.lbl_time = ttk.Label(
             root, text="Terakhir dites: -", font=("Helvetica", 8), foreground="#64748b"
@@ -85,15 +90,16 @@ class NetCheckApp:
         self.lbl_time.pack(pady=8)
 
         # Shortcut Keyboard
-
         self.root.bind("<Return>", lambda event: self.start_test())
         self.root.bind("<Escape>", lambda event: self.reset_results())
+
     def reset_results(self):
         """Fungsi untuk membersihkan tampilan hasil pengujian"""
         self.lbl_ping.config(text="-")
         self.lbl_download.config(text="-")
         self.lbl_upload.config(text="-")
         self.lbl_server.config(text="-")
+        self.lbl_isp.config(text="-")
         self.lbl_time.config(text="Terakhir dites: -")
         self.s_var.set("Siap")
 
@@ -102,6 +108,10 @@ class NetCheckApp:
             self.s_var.set("🔍 Mencari server terbaik...")
             st = speedtest.Speedtest()
             st.get_best_server()
+
+            client_info = st.results.client
+            info_isp = f"{client_info['isp']} ({client_info['ip']})"
+            self.lbl_isp.config(text=info_isp)
 
             server_info = st.results.server
             nama_server = f"{server_info['sponsor']} ({server_info['name']})"
@@ -146,6 +156,7 @@ class NetCheckApp:
         self.lbl_download.config(text="-")
         self.lbl_upload.config(text="-")
         self.lbl_server.config(text="-")
+        self.lbl_isp.config(text="-")
         self.progress.start(10)
 
         threading.Thread(target=self.run_speedtest, daemon=True).start()
