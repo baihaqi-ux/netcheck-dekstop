@@ -167,7 +167,14 @@ class NetCheckApp:
             self.s_var.set(f"Pengujian Selesai! ({kualitas})")
             waktu_sekarang = datetime.now().strftime("%H:%M:%S")
             self.lbl_time.config(text=f"Terakhir dites: {waktu_sekarang}")
-
+            waktu_lengkap = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            with open("riwayat_speedtest.txt", "a", encoding="utf-8") as file_log:
+                file_log.write(
+                    f"[{waktu_lengkap}] Ping: {ping:.0f} ms | "
+                    f"Download: {download_speed:.2f} Mbps | "
+                    f"Upload: {upload_speed:.2f} Mbps | "
+                    f"ISP: {info_isp} | Status: {kualitas}\n"
+                )
         except speedtest.ConfigRetrievalError:
             self.s_var.set("❌ Gagal: Tidak dapat terhubung ke server speedtest")
         except speedtest.NoMatchedServers:
